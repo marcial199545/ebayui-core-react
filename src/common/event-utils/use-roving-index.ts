@@ -5,16 +5,16 @@ const useRovingIndex = (
     children: ReactNode,
     FocusableType: FC,
     defaultValue?: number
-): [number, Dispatch<SetStateAction<number>>] => {
+): [number | undefined, Dispatch<SetStateAction<number | undefined>>] => {
     const [rovingIndex, setRovingIndex] = useState(defaultValue)
     const [arrowUpPressed, arrowDownPressed] = useKeyPress()
 
     const rovingIndexArray = Children
         .toArray(children)
-        .reduce<number[]>((focusables, child: ReactElement, i) =>
-            child.type === FocusableType ? [...focusables, i] : focusables, [])
+        .reduce<number[]>((focusables, child, i) =>
+            child as ReactElement.type === FocusableType ? [...focusables, i] : focusables, [])
 
-    const currentIndex = rovingIndexArray.indexOf(rovingIndex)
+    const currentIndex = rovingIndex === undefined ? -1 : rovingIndexArray.indexOf(rovingIndex)
 
     const previousOrCurrent = () => {
         if (currentIndex === -1) return rovingIndex

@@ -1,23 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 
 const useKeyPress = (): [boolean, boolean] => {
     const [arrowUpPressed, setArrowUpPressed] = useState(false)
     const [arrowDownPressed, setArrowDownPressed] = useState(false)
 
-    const upHandler = ({ key }) => {
-        const fn = {
+    const upHandler = ({ key }: KeyboardEvent) => {
+        const keyMap: Record<string, Dispatch<SetStateAction<boolean>>> = {
             ArrowUp: setArrowUpPressed,
             ArrowDown: setArrowDownPressed
-        }[key]
+        }
+        const fn = keyMap[key]
 
         if (fn) fn(false)
     }
 
-    const downHandler = ({ key }) => {
-        const fn = {
+    const downHandler = ({ key }: KeyboardEvent) => {
+        const keyMap: Record<string, Dispatch<SetStateAction<boolean>>> = {
             ArrowUp: setArrowUpPressed,
             ArrowDown: setArrowDownPressed
-        }[key]
+        }
+        const fn = keyMap[key]
 
         if (fn) fn(true)
     }

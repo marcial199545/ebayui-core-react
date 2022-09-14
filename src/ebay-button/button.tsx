@@ -87,7 +87,7 @@ const EbayButton:FC<Props> = ({
     }
 
     const bodyContent = isLoading ? <EbayButtonLoading /> : children
-    const ariaLive = isLoading ? `polite` : null
+    const ariaLive = isLoading ? `polite` : undefined
 
     return href ? (
         <a
