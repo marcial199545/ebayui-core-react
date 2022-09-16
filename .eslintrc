@@ -54,6 +54,10 @@
                 "args": "none"
             }
         ],
+        // Temporary while migrating to stricter TypeScript
+        "@typescript-eslint/ban-ts-comment": [
+            "warn"
+        ],
         // works incorrectly with type imports
         "no-import-assign": "off",
         "react/prop-types": "off",

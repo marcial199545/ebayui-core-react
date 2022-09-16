@@ -18,6 +18,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "yarn jest",
     "build": "yarn tsc",
+    "build:check": "yarn tsc --noEmit",
     "update-icons": "node ./scripts/update-icons",
     "copy": "copyfiles package.json README.md lib; yarn copy:rest",
     "copy:rest": "yarn copyfiles -u 1 'src/**/*.md' lib",
