@@ -45,7 +45,7 @@ export function useDialogAnimation({
             transitionElements = [dialogRef]
         }
 
-        let cancelCurrentAnimation: () => void
+        let cancelCurrentAnimation: CancelFunction | undefined
 
         if (open) {
             cancelCurrentAnimation = showAnimation({
@@ -73,11 +73,11 @@ export function useDialogAnimation({
     }, [open, enabled])
 }
 
-function showAnimation({ dialog, waitFor, classPrefix, onTransitionEnd }: AnimationData): CancelFunction {
+function showAnimation({ dialog, waitFor, classPrefix, onTransitionEnd }: AnimationData): CancelFunction | undefined {
     return transition(dialog, waitFor, `${classPrefix}--show`, onTransitionEnd)
 }
 
-function hideAnimation({ dialog, waitFor, classPrefix, onTransitionEnd }: AnimationData): CancelFunction {
+function hideAnimation({ dialog, waitFor, classPrefix, onTransitionEnd }: AnimationData): CancelFunction | undefined {
     return transition(dialog, waitFor, `${classPrefix}--hide`, onTransitionEnd)
 }
 
@@ -86,7 +86,7 @@ function transition(
     waitFor: React.RefObject<HTMLElement>[],
     className: string,
     onTransitionEnd: () => void
-): CancelFunction {
+): CancelFunction | undefined {
     if (!element.current || !className) {
         return
     }
@@ -114,13 +114,13 @@ function transition(
                 }
             }
 
-            ref.current.addEventListener('transitionend', listener, { once: true })
+            ref.current?.addEventListener('transitionend', listener, { once: true })
         })
     })
 }
 
 function nextFrame(callback: () => void): CancelFunction {
-    let frame: number
+    let frame: number | null
     let cancelFrame: (n: number) => void
 
     if (window.requestAnimationFrame) {
@@ -136,7 +136,7 @@ function nextFrame(callback: () => void): CancelFunction {
     return () => {
         if (frame) {
             cancelFrame(frame)
-            frame = undefined
+            frame = null
         }
     }
 }
