@@ -29,7 +29,7 @@ const EbayExpandButton: FC<ExpandButtonProps> = ({
         { 'expand-btn--borderless': borderless }
     )
 
-    const handleClick = e => {
+    const handleClick = (evt: MouseEvent) => {
         const willExpand = !expanded
         if (willExpand) {
             onExpand()
@@ -37,7 +37,7 @@ const EbayExpandButton: FC<ExpandButtonProps> = ({
             onCollapse()
         }
         setExpanded(!expanded)
-        onClick(e)
+        onClick(evt)
     }
 
     return (
