@@ -11,8 +11,6 @@ type EbayCheckboxProps = {
     onChange?: (e: ChangeEvent<HTMLInputElement>, value: string | number, checked: boolean) => void;
 }
 
-const isControlled = checked => typeof checked !== 'undefined'
-
 const EbayCheckbox: FC<InputProps & EbayCheckboxProps> = ({
     id,
     size = 'default',
@@ -70,3 +68,7 @@ const EbayCheckbox: FC<InputProps & EbayCheckboxProps> = ({
 }
 
 export default EbayCheckbox
+
+function isControlled(checked: boolean | undefined): checked is boolean {
+    return typeof checked !== 'undefined'
+}

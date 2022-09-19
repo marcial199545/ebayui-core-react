@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, ComponentProps, FC, ReactElement, ReactNode } from 'react'
+import React, { Children, cloneElement, ComponentProps, FC, ReactNode, isValidElement, MouseEvent } from 'react'
 import classNames from 'classnames'
 
 type BreadcrumbProps = ComponentProps<'div'> & {
@@ -19,7 +19,7 @@ const Breadcrumbs: FC<BreadcrumbProps> = ({
     a11yHeadingText = 'Page navigation',
     a11yHeadingTag = 'h2',
     id = 'ebay-breadcrumb',
-    children: breadcrumbItems = [],
+    children: breadcrumbItems,
     className,
     onSelect = () => {},
     ...rest
@@ -27,8 +27,9 @@ const Breadcrumbs: FC<BreadcrumbProps> = ({
     const headingId = `${id}-breadcrumbs-heading`
     const lastItemIndex = Children.count(breadcrumbItems) - 1
     const A11yHeadingTag = a11yHeadingTag
-    const anyLink = Children.toArray(breadcrumbItems).some((item: ReactElement) => item.props.href)
-    const tag = anyLink ? 'a' : 'button'
+    const containsLink = Children.toArray(breadcrumbItems)
+        .some(item => isValidElement<{href: string}>(item) && !!item.props.href)
+    const tag = containsLink ? 'a' : 'button'
 
     return (
         <nav
@@ -39,7 +40,11 @@ const Breadcrumbs: FC<BreadcrumbProps> = ({
         >
             <A11yHeadingTag id={headingId} className="clipped">{a11yHeadingText}</A11yHeadingTag>
             <ul>
-                {Children.map(breadcrumbItems, (item: ReactElement, index) => {
+                {Children.map(breadcrumbItems, (item, index) => {
+                    if (!isValidElement(item)) {
+                        return null
+                    }
+
                     const isLastItem = index === lastItemIndex
                     const { href, children } = item.props
                     const itemProps = {
@@ -47,7 +52,7 @@ const Breadcrumbs: FC<BreadcrumbProps> = ({
                         isLastItem,
                         href,
                         children,
-                        onClick: event => onSelect(event, event.target)
+                        onClick: (event: MouseEvent) => onSelect(event, event.target as HTMLElement)
                     }
 
                     return cloneElement(item, itemProps)
