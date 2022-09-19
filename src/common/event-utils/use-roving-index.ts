@@ -12,7 +12,8 @@ const useRovingIndex = (
     const rovingIndexArray = Children
         .toArray(children)
         .reduce<number[]>((focusables, child, i) =>
-            child as ReactElement.type === FocusableType ? [...focusables, i] : focusables, [])
+            // eslint-disable-next-line no-extra-parens
+            (child as ReactElement).type === FocusableType ? [...focusables, i] : focusables, [])
 
     const currentIndex = rovingIndex === undefined ? -1 : rovingIndexArray.indexOf(rovingIndex)
 
