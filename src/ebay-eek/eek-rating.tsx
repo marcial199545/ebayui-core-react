@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import classNames from 'classnames'
-import eekUtil from './eek-util'
+import getRating from './eek-util'
 import { EbayIcon } from '../ebay-icon'
 
-
+// TODO: convert string to string union for stricter
 export type EbayEekProps = {
     rating: string;
     max: string;
@@ -19,7 +19,7 @@ const EbayEek: FC<EbayEekProps> = ({
     a11yText,
     className: extraClasses
 }) => {
-    const parsedRating = eekUtil({ rating, min, max })
+    const parsedRating = getRating({ rating, min, max })
     const className = classNames(extraClasses, 'eek',
         { [`eek--rating-${parsedRating}`]: !!parsedRating }
     )

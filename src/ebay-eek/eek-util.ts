@@ -1,6 +1,6 @@
 import { EbayEekProps } from './eek-rating'
 
-const validRanges = {
+const validRanges: Record<string, string[]> = {
     'A+++': ['D', 'E', 'G'],
     'A++': ['E', 'G'],
     'A+': ['F', 'G'],
@@ -8,12 +8,13 @@ const validRanges = {
 }
 
 
-export = (input: EbayEekProps): number => {
+export default function getRating(input: EbayEekProps): number | null {
     const { max, min, rating } = input
     const validMax = validRanges[max]
     if (!(validMax && validMax.indexOf(min) > -1)) {
         return null
     }
+
     // Count from max until you reach rating
     let current = max
     let i = 1
