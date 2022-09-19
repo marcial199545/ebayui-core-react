@@ -7,6 +7,7 @@ import React, {
     useState,
     ReactElement,
     cloneElement,
+    MouseEvent,
     MouseEventHandler,
     ReactNode
 } from 'react'
@@ -36,7 +37,7 @@ export interface DialogBaseProps<T> extends HTMLProps<T> {
     buttonPosition?: ButtonPosition;
     ariaLabelledby?: string;
     a11yCloseText?: string;
-    onCloseBtnClick?: MouseEventHandler;
+    onCloseBtnClick?: (event?: MouseEvent) => void;
     onBackgroundClick?: MouseEventHandler;
     mainId?: string;
     ignoreEscape?: boolean;
@@ -73,9 +74,9 @@ export const DialogBase: FC<DialogBaseProps<HTMLElement>> = ({
     animated,
     ...props
 }) => {
-    const dialogRef = useRef(null)
-    const drawerBaseEl = useRef(null)
-    const closeButtonRef = useRef(null)
+    const dialogRef = useRef<HTMLDivElement>(null)
+    const drawerBaseEl = useRef<HTMLDivElement>(null)
+    const closeButtonRef = useRef<HTMLButtonElement>(null)
 
     const [rId, setRandomId] = useState('')
 
@@ -85,7 +86,7 @@ export const DialogBase: FC<DialogBaseProps<HTMLElement>> = ({
 
     useEffect(() => {
         const handleBackgroundClick = (e: React.MouseEvent) => {
-            if (drawerBaseEl.current && !drawerBaseEl.current.contains(e.target)) {
+            if (drawerBaseEl.current && !drawerBaseEl.current.contains(e.target as HTMLElement)) {
                 onBackgroundClick(e)
             }
         }

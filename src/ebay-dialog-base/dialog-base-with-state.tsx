@@ -9,7 +9,7 @@ export const DialogBaseWithState = ({
     children,
     animated,
     ...rest
-}: DialogBaseProps<HTMLElement>): ReactElement => {
+}: DialogBaseProps<HTMLElement>): ReactElement | null => {
     const shouldRenderModal = isModal !== false
 
     const childrenArray = Children.toArray(children) as ReactElement[]
