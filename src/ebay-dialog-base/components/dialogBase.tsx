@@ -33,7 +33,7 @@ export interface DialogBaseProps<T> extends HTMLProps<T> {
     header?: ReactElement;
     footer?: ReactElement;
     isModal?: boolean;
-    top?: ReactElement;
+    top?: ReactNode;
     buttonPosition?: ButtonPosition;
     ariaLabelledby?: string;
     a11yCloseText?: string;

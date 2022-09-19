@@ -59,7 +59,7 @@ const EbayDrawerDialog: FC<EbayDrawerProps<any>> = ({
         if (touches.length) {
             Array.from(e.changedTouches).forEach(({ identifier, pageY }) => {
                 const compare = touches.findIndex(touch => touch.identifier === identifier)
-                const diff = pageY - touches[compare].pageY
+                const diff = pageY - (touches[compare]?.pageY ?? 0)
                 if (diff > THRESHOLD_TOUCH) {
                     // Drag down, collpase
                     if (expanded) {
