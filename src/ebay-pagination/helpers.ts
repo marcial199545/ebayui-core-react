@@ -69,13 +69,14 @@ function visibleRange(totalItems: number, start: number, end?: number): ItemStat
  * Based on eBayUI Core Marko implementation.
  * See https://github.com/eBay/ebayui-core/blob/v8.6.0/src/components/ebay-pagination/component.js#L119-L132
  */
-export function getMaxWidth(el?: HTMLElement): number {
+export function getMaxWidth(el?: HTMLElement | null): number {
     if (!el) {
         return 0
     }
 
     el.style.width = '100vw'
     const result = el.offsetWidth
+    // @ts-ignore Not sure if it's still work with assigning with 0
     el.style.width = null
     return result
 }

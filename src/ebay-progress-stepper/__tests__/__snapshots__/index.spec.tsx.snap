@@ -260,7 +260,6 @@ exports[`Storyshots ebay-progress-stepper Controlled 1`] = `
   </div>
   <p>
     <button
-      aria-live={null}
       className="btn btn--secondary"
       onClick={[Function]}
       onKeyDown={[Function]}
@@ -269,7 +268,6 @@ exports[`Storyshots ebay-progress-stepper Controlled 1`] = `
     </button>
      
     <button
-      aria-live={null}
       className="btn btn--secondary"
       onClick={[Function]}
       onKeyDown={[Function]}

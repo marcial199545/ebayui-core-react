@@ -1103,7 +1103,6 @@ Array [
 
 exports[`Storyshots ebay-pagination Inside a dialog 1`] = `
 <button
-  aria-live={null}
   className="btn btn--secondary"
   onClick={[Function]}
   onKeyDown={[Function]}

@@ -1,6 +1,6 @@
 import React, {
     Children, ComponentProps, FC, ReactElement,
-    cloneElement, useEffect, useRef, useState, createRef
+    cloneElement, useEffect, useRef, useState, createRef, RefObject, ReactNode
 } from 'react'
 import classNames from 'classnames'
 import { debounce } from '../common/debounce'
@@ -37,18 +37,18 @@ const EbayPagination: FC<PaginationProps> = ({
     ...rest
 }) => {
     const paginationContainerRef = useRef<HTMLUnknownElement>(null)
-    const childPageRefs = useRef([])
-    childPageRefs.current = Children.map(children, createRef)
+    const childPageRefs = useRef<RefObject<HTMLUnknownElement>[]>([])
+    childPageRefs.current = Children.map(children, () => createRef<HTMLUnknownElement>()) ?? []
     const totalPages = filterBy(children, ({ props }) => props.type === undefined || props.type === 'page').length
 
     const itemWidthRef = useRef<number>(0)
     const arrowWidthRef = useRef<number>(0)
     const getNumOfVisiblePageItems = () => {
-        const pageArrowWidth = arrowWidthRef.current || childPageRefs.current[0]?.current?.offsetWidth
-        arrowWidthRef.current = pageArrowWidth // cache arrow width since it should be static
+        const pageArrowWidth = (arrowWidthRef.current || childPageRefs.current[0]?.current?.offsetWidth) ?? 0
+        arrowWidthRef.current = pageArrowWidth ?? 0 // cache arrow width since it should be static
 
         const pageItemWidth = itemWidthRef.current || childPageRefs.current[1]?.current?.offsetWidth
-        itemWidthRef.current = pageItemWidth // cache item width since it should be static
+        itemWidthRef.current = pageItemWidth ?? 0 // cache item width since it should be static
 
         return pageItemWidth ?
             Math.floor((getMaxWidth(paginationContainerRef.current) - pageArrowWidth * 2) / pageItemWidth) :
@@ -84,9 +84,16 @@ const EbayPagination: FC<PaginationProps> = ({
     const createChildItems = (itemType: PaginationItemType): ReactElement[] => {
         let pageIndex = 0
 
-        return Children.map(children, (item: ReactElement, index) => {
-            const { type = 'page', current, disabled, href, children: text } = item.props
-            const newProps = {
+        // @ts-ignore Need to solve Children.map type
+        return Children.map(children, (item, index) => {
+            // @ts-ignore Need to solve Children.map type
+            const { type = 'page', current, disabled, href, children: text } = item?.props ?? {}
+            if (itemType !== type) {
+                return null
+            }
+
+            // @ts-ignore Need to solve Children.map type
+            return cloneElement(item, {
                 type, current, disabled, href,
                 children: page[index] === 'dots' ? '…' : text,
                 pageIndex: type === 'page' ? pageIndex++ : undefined,
@@ -94,9 +101,7 @@ const EbayPagination: FC<PaginationProps> = ({
                 hide: page[index] === 'hidden',
                 onPrevious, onNext, onSelect, a11yPreviousText, a11yNextText,
                 ref: childPageRefs.current[index]
-            }
-
-            return itemType === type ? cloneElement(item, newProps) : null
+            })
         })
     }
 
