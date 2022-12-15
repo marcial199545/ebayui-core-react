@@ -2,8 +2,6 @@ import React, {
     Children,
     ComponentProps,
     FC,
-    KeyboardEvent,
-    MouseEvent,
     ReactElement,
     ReactNode,
     RefObject
@@ -14,6 +12,7 @@ import { Priority, Size, BodyState, Variant, Split } from './types'
 import { EbayIcon } from '../ebay-icon'
 import EbayButtonLoading from './button-loading'
 import EbayButtonExpand from './button-expand'
+import { EbayKeyboardEventHandler } from '../common/event-utils/types'
 
 export type EbayButtonProps = {
     fluid?: boolean;
@@ -26,8 +25,8 @@ export type EbayButtonProps = {
     bodyState?: BodyState,
     split?: Split;
     transparent?: boolean;
-    onClick?: (e: MouseEvent) => void;
-    onEscape?: (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+    // onClick?: EbayUIMouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+    onEscape?: EbayKeyboardEventHandler<HTMLButtonElement | HTMLAnchorElement>;
     forwardedRef?: RefObject<HTMLAnchorElement & HTMLButtonElement>;
     borderless?: boolean;
     fixedHeight?: boolean;
@@ -92,7 +91,7 @@ const EbayButton:FC<Props> = ({
         fixedHeight && (sizeStyles[size] ? `${sizeStyles[size]}-${fixedHeight}` : `${classPrefix}--fixed-height`)
     )
 
-    const onKeyDown = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    const onKeyDown: EbayKeyboardEventHandler<HTMLButtonElement | HTMLAnchorElement> = (e) => {
         if (e.key === 'Escape' || e.key === 'Esc') {
             onEscape(e)
         }

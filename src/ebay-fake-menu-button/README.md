@@ -50,9 +50,10 @@ Name | Type | Required | Description
 `fixWidth` | Boolean  | No | Constrain items container width to button width
 `borderless` | Boolean | No | Whether button has borders
 `size` | String   | No | button size: `large` or `regular` (default)
+`onKeydown` | Function | No | Triggered on keydown
+`onMousedown` | Function | No | Triggered on mouse down
 `onExpand` | Function | No | Triggered on menu expand
 `onCollapse` | Function | No | Triggered on menu collapse
-`onChange` | Function | No | Not yet implemented
 `onSelect` | Function | No | Not yet implemented
 
 ## EbayFakeMenuButtonItem Attributes
@@ -62,8 +63,6 @@ Name | Type | Required | Description
 `href` | String | No | Creates a menu-item with a link
 `current` | Boolean | No | Whether or not the href is the current href of the page
 `type` | String | No | Type of a (non-link) menu-item, default: `button`
-`value` (radio or checkbox) | String | No | Not yet implemented
-`checked` (radio or checkbox) | Boolean | No | Not yet implemented
 `badge-number` | Number | No | Not yet implemented
 `badge-aria-label` | String | Yes (if `badge-number` provided) | Not yet implemented
 `onClick` | Function | No | For a non-link menu item, with param `{ originalEvent }`

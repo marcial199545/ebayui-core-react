@@ -1,11 +1,13 @@
 import React, { ComponentProps, FC, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { EbayIcon } from '../index'
+import { EbayMouseEventHandler } from '../common/event-utils/types'
 
 export type EbayFakeMenuItemProps = Omit<ComponentProps<'a'>, 'onKeyDown'> & {
     current?: boolean;
     disabled?: boolean;
     autoFocus?: boolean;
+    onClick?: EbayMouseEventHandler;
 }
 
 const EbayMenuItem: FC<EbayFakeMenuItemProps> = ({

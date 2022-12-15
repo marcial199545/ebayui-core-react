@@ -1,16 +1,13 @@
-import React, {
-    Children, cloneElement,
-    ComponentProps, FC, ReactElement, KeyboardEvent, MouseEvent
-} from 'react'
+import React, { Children, cloneElement, ComponentProps, FC, ReactElement } from 'react'
 import classNames from 'classnames'
 import { EbayFakeMenuItemProps } from './index'
+import { EbayChangeEventHandler, EbayKeyboardEventHandler } from '../common/event-utils/types'
+import { handleActionKeydown } from '../common/event-utils'
 
-type SpanProps = Omit<ComponentProps<'div'>, 'onKeyDown'>
-type Callback = (event: KeyboardEvent | MouseEvent, i: number) => void
-type Props = SpanProps & {
+type Props = ComponentProps<'div'> & {
     itemMatchesUrl?: boolean;
-    onKeyDown?: Callback;
-    onSelect?: Callback;
+    onKeyDown?: EbayKeyboardEventHandler<HTMLMenuElement, { index: number }>;
+    onSelect?: EbayChangeEventHandler<HTMLMenuElement, { index: number }>;
 }
 
 const EbayFakeMenu: FC<Props> = ({
@@ -40,11 +37,14 @@ const EbayFakeMenu: FC<Props> = ({
                                 ...itemRest,
                                 'aria-current': current ? defaultAriaCurrent : undefined,
                                 onClick: e => {
-                                    onSelect(e, i)
+                                    onSelect(e, { index: i })
                                     onClick(e)
                                 },
                                 onKeyDown: e => {
-                                    onKeyDown(e, i)
+                                    handleActionKeydown(e, () => {
+                                        onSelect(e, { index: i })
+                                    })
+                                    onKeyDown(e, { index: i })
                                 }
                             } as EbayFakeMenuItemProps)}
                         </li>

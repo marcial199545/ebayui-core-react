@@ -1,46 +1,26 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react';
-import { action } from '../../../.storybook/action'
+import { linkClickAction, linkPressAction } from '../../../.storybook/action'
 import { EbayFakeMenu, EbayFakeMenuItem as Item, EbayFakeMenuSeparator as Separator } from '../index'
 
 storiesOf('ebay-fake-menu', module)
     .add('Default', () => (<>
         <EbayFakeMenu
-            onClick={(event) => {
-                action('click')('MENU click event prevented')
-                event.preventDefault()
-            }}
-            onKeyDown={action('key down')}
-            onSelect={(event) => {
-                action('select')('event prevented')
-                event.preventDefault()
-            }}
+            onClick={linkClickAction('menu click')}
+            onKeyDown={linkPressAction('key down')}
+            onSelect={linkClickAction('select')}
         >
-            <Item href="#" onClick={(event) => {
-                action('click')('ITEM click event prevented')
-                event.preventDefault()
-            }}>Item 1 that has very long text</Item>
-            <Item href="#" current>Current page</Item>
-            <Item href="#">Item 3</Item>
+            <Item
+                href="http://ebay.com"
+                onClick={linkClickAction('item click')}
+            >Item 1 that has very long text</Item>
+            <Item href="http://ebay.com" current>Current page</Item>
+            <Item href="http://ebay.com">Item 3</Item>
         </EbayFakeMenu>
     </>))
     .add('Without tick icon', () => (<>
-        <EbayFakeMenu
-            itemMatchesUrl={false}
-            onClick={(event) => {
-                action('click')('MENU click event prevented')
-                event.preventDefault()
-            }}
-            onKeyDown={action('key down')}
-            onSelect={(event) => {
-                action('select')('event prevented')
-                event.preventDefault()
-            }}
-        >
-            <Item href="#" onClick={(event) => {
-                action('click')('ITEM click event prevented')
-                event.preventDefault()
-            }}>Item 1 that has very long text</Item>
+        <EbayFakeMenu itemMatchesUrl={false}>
+            <Item href="#">Item 1 that has very long text</Item>
             <Item href="#" current>Current page</Item>
             <Item href="#">Item 3</Item>
         </EbayFakeMenu>

@@ -6,6 +6,7 @@ import { handleEscapeKeydown } from '../common/event-utils'
 import { randomId } from '../common/random-id'
 import { EbayButton, EbayButtonProps, EbayFakeMenu, EbayFakeMenuItemProps, EbayIcon, EbayIconButton } from '..'
 import { EbayFakeMenuButtonItem, EbayFakeMenuButtonLabel, EbayFakeMenuButtonSeparator } from '.'
+import { EbayEventHandler, EbayKeyboardEventHandler } from '../common/event-utils/types'
 
 export type EbayFakeMenuButtonVariant = 'overflow' | 'form' | 'button'
 
@@ -17,11 +18,9 @@ export type EbayFakeMenuButtonProps = {
     reverse?: boolean;
     variant?: EbayFakeMenuButtonVariant;
     className?: string;
-    onCollapse?: () => void;
-    onExpand?: () => void;
+    onCollapse?: EbayEventHandler<HTMLButtonElement>;
+    onExpand?: EbayEventHandler<HTMLButtonElement>;
     text?: string;
-    // todo: implement the following props
-    type?: 'radio' | 'checkbox';
 }
 
 type ButtonProps = Omit<EbayButtonProps, 'variant'> &
@@ -77,7 +76,7 @@ const EbayMenuButton: FC<Props> = ({
         setMenuId(randomId())
     }, [])
 
-    const handleMenuKeydown = e => {
+    const handleMenuKeydown: EbayKeyboardEventHandler = e => {
         handleEscapeKeydown(e, () => {
             setExpanded(false)
             ref.current?.focus()

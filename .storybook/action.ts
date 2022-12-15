@@ -10,3 +10,13 @@ export const action = (name: string, options?: any) => {
 
     return namedAction
 }
+
+export const linkClickAction = name => (event, ...rest) => {
+    action(name)(event, ...rest)
+    event.preventDefault()
+}
+
+export const linkPressAction = name => (event, ...rest) => {
+    action(name)(event, ...rest)
+    if (event.key === 'Enter') event.preventDefault()
+}
