@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { action } from '../../../.storybook/action'
+import { action, linkClickAction, linkPressAction } from '../../../.storybook/action'
 import {
     EbayFakeMenuButton,
     EbayFakeMenuButtonItem as Item,
@@ -11,7 +11,11 @@ import {
 
 storiesOf('ebay-fake-menu-button', module)
     .add('Default', () => (<>
-        <EbayFakeMenuButton text="eBay Menu">
+        <EbayFakeMenuButton
+            text="eBay Menu"
+            onKeyDown={linkPressAction('key down')}
+            onSelect={linkClickAction('select')}
+        >
             <Item href="http://ebay.com">eBay US</Item>
             <Item href="http://ebay.de">eBay DE</Item>
             <Item href="http://ebay.co.uk">eBay UK</Item>
